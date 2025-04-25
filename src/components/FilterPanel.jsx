@@ -1,20 +1,23 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
-export const FilterPanel = ({ filters, setFilters }) => {
+export const FilterPanel = ({ data, filters, setFilters }) => {
   const [specialtySearch, setSpecialtySearch] = useState('');
 
-  // Get all unique specialties from the data
+  // Get all unique specialties from the data array
   const specialties = [
     ...new Set(
-      (filters.all || []).flatMap(doc => (doc.specialities || []).map(s => s.name))
-    ),
-  ].filter(Boolean);  // Remove any empty or undefined values
+      (data || []).flatMap(doc =>
+        (doc.specialities || []).map(s => s.name)
+      )
+    )
+  ].filter(Boolean);
 
   // Filter specialties based on the search input
   const filteredSpecialties = specialties.filter(s =>
     s.toLowerCase().includes(specialtySearch.toLowerCase())
   );
 
+  // Handle checkbox changes
   const handleCheckbox = (specialty) => {
     const current = filters.specialties.includes(specialty)
       ? filters.specialties.filter(s => s !== specialty)
@@ -23,24 +26,36 @@ export const FilterPanel = ({ filters, setFilters }) => {
   };
 
   return (
-    <div className="text-sm text-gray-800">
+    <div className="text-sm text-gray-800 bg-white">
       <h2 className="font-bold text-lg mb-3">Filters</h2>
 
       {/* Specialities Section */}
-      <div className="border border-gray-200 rounded mb-4 overflow-hidden">
-        <h3 data-testid="filter-header-speciality" className="bg-gray-100 px-4 py-2 font-semibold text-gray-700 border-b">Specialities</h3>
+      <div className="border border-gray-200 rounded mb-4 overflow-hidden bg-white">
+        <h3
+          data-testid="filter-header-speciality"
+          className="bg-gray-100 px-4 py-2 font-semibold text-gray-700 border-b"
+        >
+          Specialities
+        </h3>
         <div className="px-4 py-3">
-          <div className="flex items-center border rounded px-2 mb-3">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1116.65 5.65a7.5 7.5 0 010 10.6z" />
-            </svg>
-            <input
-              type="text"
-              placeholder="Search specialities"
-              value={specialtySearch}
-              onChange={(e) => setSpecialtySearch(e.target.value)}
-              className="w-full px-2 py-1 text-sm outline-none"
-            />
+          <div className="border rounded px-3 py-2 bg-white shadow-sm mb-3">
+            <div className="flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg"
+                   className="h-4 w-4 text-gray-500"
+                   fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 
+                         1116.65 5.65a7.5 7.5 0 010 10.6z" />
+              </svg>
+              <input
+                type="text"
+                placeholder="Search specialities"
+                value={specialtySearch}
+                onChange={e => setSpecialtySearch(e.target.value)}
+                className="w-full px-2 py-1 text-sm outline-none"
+              />
+            </div>
           </div>
           <div className="h-40 overflow-y-auto pr-1 space-y-2">
             {filteredSpecialties.map(s => (
@@ -49,7 +64,7 @@ export const FilterPanel = ({ filters, setFilters }) => {
                   type="checkbox"
                   checked={filters.specialties.includes(s)}
                   onChange={() => handleCheckbox(s)}
-                  data-testid={`filter-specialty-${s?.replace(/\s+/g, '-').replace('/', '-')}`}
+                  data-testid={`filter-speciality-${s.replace(/\s+/g, '-').replace('/', '-')}`}
                 />
                 <span className="ml-2">{s}</span>
               </label>
@@ -60,7 +75,12 @@ export const FilterPanel = ({ filters, setFilters }) => {
 
       {/* Mode of consultation Section */}
       <div className="border border-gray-200 rounded mb-4 overflow-hidden">
-        <h3 data-testid="filter-header-moc" className="bg-gray-100 px-4 py-2 font-semibold text-gray-700 border-b">Mode of consultation</h3>
+        <h3
+          data-testid="filter-header-moc"
+          className="bg-gray-100 px-4 py-2 font-semibold text-gray-700 border-b"
+        >
+          Mode of consultation
+        </h3>
         <div className="px-4 py-3">
           {[
             { key: 'video_consult', label: 'Video Consultation' },
@@ -84,7 +104,12 @@ export const FilterPanel = ({ filters, setFilters }) => {
 
       {/* Sort Section */}
       <div className="border border-gray-200 rounded mb-4 overflow-hidden">
-        <h3 data-testid="filter-header-sort" className="bg-gray-100 px-4 py-2 font-semibold text-gray-700 border-b">Sort</h3>
+        <h3
+          data-testid="filter-header-sort"
+          className="bg-gray-100 px-4 py-2 font-semibold text-gray-700 border-b"
+        >
+          Sort
+        </h3>
         <div className="px-4 py-3">
           {[
             { key: 'fees-asc', label: 'Price: Low to High' },

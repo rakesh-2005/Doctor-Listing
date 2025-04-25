@@ -41,17 +41,15 @@ function App() {
     )
     .sort((a, b) => {
       // Parse the fees correctly by removing non-numeric characters
-      const aFee = parseInt((a.fees || '').replace(/[^\d]/g, '')) || 0;
-      const bFee = parseInt((b.fees || '').replace(/[^\d]/g, '')) || 0;
+      const aFee = parseInt(String(a.fees).replace(/[^\d]/g, ''), 10) || Number.MAX_SAFE_INTEGER;
+      const bFee = parseInt(String(b.fees).replace(/[^\d]/g, ''), 10) || Number.MAX_SAFE_INTEGER;
 
       // Parse the experience correctly by extracting the number of years
       const aExp = parseInt((a.experience || '').match(/\d+/)?.[0]) || 0;
       const bExp = parseInt((b.experience || '').match(/\d+/)?.[0]) || 0;
 
-      if (filters.sort === 'fees') {
+      if (filters.sort === 'fees-asc') {
         return aFee - bFee;  // Price: Low to High (ascending)
-      } else if (filters.sort === 'experience') {
-        return aExp - bExp;  // Experience: Low to High (ascending)
       } else if (filters.sort === 'experience-desc') {
         return bExp - aExp;  // Experience: High to Low (descending)
       }
@@ -62,7 +60,11 @@ function App() {
     <div className="min-h-screen flex bg-gray-50">
       {/* Sidebar */}
       <aside className="w-72 bg-white border-r p-4">
-        <FilterPanel filters={filters} setFilters={setFilters} />
+        <FilterPanel
+          data={doctors}
+          filters={filters}
+          setFilters={setFilters}
+        />
       </aside>
 
       {/* Main Content */}
