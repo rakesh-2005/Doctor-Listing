@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 
-// Components
+
 import { Autocomplete } from './components/Autocomplete';
 import { FilterPanel } from './components/FilterPanel';
 import { DoctorCard } from './components/DoctorCard';
 
-// Utilities
+
 import { fetchDoctors } from './data/api';
 
 function App() {
@@ -40,18 +40,18 @@ function App() {
       )
     )
     .sort((a, b) => {
-      // Parse the fees correctly by removing non-numeric characters
-      const aFee = parseInt(String(a.fees).replace(/[^\d]/g, ''), 10) || Number.MAX_SAFE_INTEGER;
+      
+      const aFee = parseInt(String(a.fees).replace(/[^\d]/g, ''), 10) || Number.MAX_SAFE_INTEGER; //extract number base 10 decimalk
       const bFee = parseInt(String(b.fees).replace(/[^\d]/g, ''), 10) || Number.MAX_SAFE_INTEGER;
 
-      // Parse the experience correctly by extracting the number of years
+      
       const aExp = parseInt((a.experience || '').match(/\d+/)?.[0]) || 0;
       const bExp = parseInt((b.experience || '').match(/\d+/)?.[0]) || 0;
 
       if (filters.sort === 'fees-asc') {
-        return aFee - bFee;  // Price: Low to High (ascending)
+        return aFee - bFee;  
       } else if (filters.sort === 'experience-desc') {
-        return bExp - aExp;  // Experience: High to Low (descending)
+        return bExp - aExp;  
       }
       return 0;
     });

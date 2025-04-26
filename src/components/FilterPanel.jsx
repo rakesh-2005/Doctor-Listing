@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 export const FilterPanel = ({ data, filters, setFilters }) => {
   const [specialtySearch, setSpecialtySearch] = useState('');
 
-  // Get all unique specialties from the data array
+
   const specialties = [
     ...new Set(
       (data || []).flatMap(doc =>
@@ -12,12 +12,11 @@ export const FilterPanel = ({ data, filters, setFilters }) => {
     )
   ].filter(Boolean);
 
-  // Filter specialties based on the search input
+
   const filteredSpecialties = specialties.filter(s =>
     s.toLowerCase().includes(specialtySearch.toLowerCase())
   );
 
-  // Handle checkbox changes
   const handleCheckbox = (specialty) => {
     const current = filters.specialties.includes(specialty)
       ? filters.specialties.filter(s => s !== specialty)

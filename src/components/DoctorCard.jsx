@@ -24,7 +24,7 @@ export const DoctorCard = ({ doc }) => (
           </p>
         )}
         <p data-testid="doctor-experience" className="text-sm text-gray-600">
-          {doc.experience} yrs exp.
+          {doc.experience}
         </p>
         {doc.clinic?.name && (
           <p className="text-sm text-gray-700 flex items-center gap-1">
@@ -41,7 +41,7 @@ export const DoctorCard = ({ doc }) => (
       </div>
     </div>
     <div className="text-right">
-      <p data-testid="doctor-fee" className="text-lg font-bold text-gray-800">₹{doc.fees}</p>
+      <p data-testid="doctor-fee" className="text-lg font-bold text-gray-800">{doc.fees}</p>
       <button className="mt-2 px-4 py-1 text-sm border border-blue-500 text-blue-600 rounded hover:bg-blue-50">
         Book Appointment
       </button>
